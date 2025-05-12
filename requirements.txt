@@ -1,0 +1,12 @@
+streamlit
+opencv-python-headless
+Pillow
+torch
+ftfy
+regex
+tqdm
+git+https://github.com/openai/CLIP.git
+torchvision
+scikit-learn
+matplotlib
+seaborn
