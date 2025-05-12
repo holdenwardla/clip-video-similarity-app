@@ -14,7 +14,6 @@ import seaborn as sns
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 
-# Frame extractor
 def extract_frames(video_path, every_n_frames=10):
     frames = []
     cap = cv2.VideoCapture(video_path)
@@ -30,7 +29,6 @@ def extract_frames(video_path, every_n_frames=10):
     cap.release()
     return frames
 
-# Get CLIP embeddings
 def get_clip_embeddings(frames):
     embeddings = []
     for img in frames:
@@ -57,29 +55,4 @@ if video1 and video2:
         video2_path = temp2.name
 
     st.info("Extracting frames...")
-    frames1 = extract_frames(video1_path)
-    frames2 = extract_frames(video2_path)
-
-    if not frames1 or not frames2:
-        st.error("Failed to extract frames.")
-    else:
-        st.info("Getting embeddings...")
-        emb1 = get_clip_embeddings(frames1)
-        emb2 = get_clip_embeddings(frames2)
-
-        st.success("Calculating similarity...")
-        similarity_matrix = cosine_similarity(np.array(emb1), np.array(emb2))
-        avg_score = np.mean(similarity_matrix)
-        st.metric("Average Similarity Score", f"{avg_score:.4f}")
-
-        # Plot
-        fig, ax = plt.subplots(figsize=(10, 6))
-        sns.heatmap(similarity_matrix, cmap="viridis", ax=ax)
-        ax.set_title("Frame-to-Frame Similarity")
-        ax.set_xlabel("Video 2 Frames")
-        ax.set_ylabel("Video 1 Frames")
-        st.pyplot(fig)
-
-        # Cleanup
-        os.remove(video1_path)
-        os.remove(video2_path)
+    frames1 = extract_frames(video1_
